@@ -5,9 +5,9 @@ romdir=$2
 thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 
 # Deal with non-flattened apex
-$thispath/../../scripts/apex_extractor.sh $1/apex
-$thispath/../../scripts/apex_extractor.sh $1/system_ext/apex
-echo "ro.apex.updatable=false" >> $1/product/etc/build.prop
+#$thispath/../../scripts/apex_extractor.sh $1/apex
+#$thispath/../../scripts/apex_extractor.sh $1/system_ext/apex
+echo "ro.apex.updatable=true" >> $1/product/etc/build.prop
 
 # Copy system files
 rsync -ra $thispath/system/ $systempath
@@ -63,6 +63,9 @@ echo "ro.lmk.use_minfree_levels=true" >> $1/product/etc/build.prop
 # Disable bpfloader
 rm -rf $1/etc/init/bpfloader.rc
 echo "bpf.progs_loaded=1" >> $1/product/etc/build.prop
+
+# Don't write binary XML files
+echo "persist.sys.binary_xml=false" >> $1/build.prop
 
 # Bypass SF validateSysprops
 echo "ro.surface_flinger.vsync_event_phase_offset_ns=-1" >> $1/product/etc/build.prop
